@@ -1,0 +1,7 @@
+<td>
+  <% if order.is_channable_order? %>
+    <span class="label label-success">Channable order <%= order.channable_order_id %> <%= order.channable_channel_name %></span>
+  <% else %>
+    <span class="label label-success">Regular order</span>
+  <% end %>
+</td>

@@ -19,9 +19,16 @@ Introduction goes here.
   bundle exec rails g spree_channable:install
   ```
 
-4. Restart your server
+4. Schedule order imports
+
+Schedule the `SpreeChannable::OrderImportJob.perform_later` to run every `SpreeChannable.configuration.polling_interval` minutes.
+By default whenever is included, the script will attempt to execute the whenever cronjob builder after the polling interval is updated.   
+
+5. Restart your server
 
   If your server was running, restart it so that it can find the assets properly.
+
+  
 
 ## Testing
 
@@ -46,4 +53,4 @@ If you'd like to contribute, please take a look at the
 [instructions](CONTRIBUTING.md) for installing dependencies and crafting a good
 pull request.
 
-Copyright (c) 2019 [name of extension creator], released under the New BSD License
+Copyright (c) 2019 Fabian Oudhaarlem, released under the New BSD License

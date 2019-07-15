@@ -1,0 +1,105 @@
+<%= form_for [:admin, resource] do |f| %>
+  <div data-hook="">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Feed settings</h2>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= f.label :host %>
+          <%= f.text_field :host, class: 'form-control' %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= f.label :url_prefix, 'Product url prefix (eg. /products)' %>
+          <%= f.text_field :url_prefix, class: 'form-control' %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= f.label :image_host %>
+          <%= f.text_field :image_host, class: 'form-control' %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= f.label :product_condition %>
+          <%= f.select :product_condition, options_for_select(ChannableSetting::PRODUCT_CONDITIONS), {}, class: 'form-control' %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= f.label :brand %>
+          <%= f.text_field :brand, class: 'form-control' %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= f.label :delivery_period %>
+          <%= f.text_field :delivery_period, class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <div class="form-check">
+          <%= f.check_box :use_variant_images, class: 'form-check-input' %>
+          <%= f.label :use_variant_images, 'Use images on the variant instead of all image', class: 'form-check-label' %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Order settings</h2>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <%= f.label :channable_api_key %>
+          <%= f.text_field :channable_api_key, class: 'form-control' %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= f.label :company_id %>
+          <%= f.text_field :company_id, class: 'form-control' %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= f.label :project_id %>
+          <%= f.text_field :project_id, class: 'form-control' %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= f.label :spree_stock_location_id, 'Stock location' %>
+          <%= f.select :spree_stock_location_id, options_from_collection_for_select(Spree::StockLocation.all, :id, :name, f.object.spree_stock_location_id), {}, class: 'form-control' %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= f.label :spree_payment_method_id, 'Payment method' %>
+          <%= f.select :spree_payment_method_id, options_from_collection_for_select(Spree::PaymentMethod.all, :id, :name, f.object.spree_payment_method_id), {}, class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= f.label :polling_interval, 'How often do we need to retrieve orders (minutes)' %>
+          <%= f.number_field :polling_interval, class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <div class="form-check">
+          <%= f.check_box :active, class: 'form-check-input' %>
+          <%= f.label :active, 'Connection active?', class: 'form-check-label' %>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <%= render "spree/admin/shared/#{resource.new_record? ? 'new' : 'edit'}_resource_links" %>
+<% end %>

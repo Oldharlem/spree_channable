@@ -8,13 +8,13 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_channable'
   s.version     = SpreeChannable.version
-  s.summary     = 'Add extension summary here'
-  s.description = 'Add (optional) extension description here'
+  s.summary     = 'Spree Channable'
+  s.description = 'Connect your spree store to channable. Receive orders, generate product feeds and send shipment updates.'
   s.required_ruby_version = '>= 2.2.7'
 
-  s.author    = 'You'
-  s.email     = 'you@example.com'
-  s.homepage  = 'https://github.com/your-github-handle/spree_channable'
+  s.author    = 'Fabian Oudhaarlem'
+  s.email     = 'fabian@oldharlem.nl'
+  # s.homepage  = 'https://github.com/your-github-handle/spree_channable'
   s.license = 'BSD-3-Clause'
 
   s.files       = `git ls-files`.split("\n").reject { |f| f.match(/^spec/) && !f.match(/^spec\/fixtures/) }
@@ -25,6 +25,9 @@ Gem::Specification.new do |s|
   s.add_dependency 'spree_core', spree_version
   s.add_dependency 'spree_backend', spree_version
   s.add_dependency 'spree_extension'
+  s.add_dependency 'parallel'
+  s.add_dependency 'httparty'
+  s.add_dependency 'whenever'
 
   s.add_development_dependency 'appraisal'
   s.add_development_dependency 'awesome_print'
