@@ -15,7 +15,7 @@ module SpreeChannable
       loop do
         # order_data = client.get_orders(offset: orders.size, limit: limit, start_date: (SpreeChannable.configuration.polling_interval * 2).minutes.ago)
         order_data = @client.get_orders(offset: orders.size, limit: limit, start_date: 2.weeks.ago)
-        order_data.data.orders.each {|order| orders << order}
+        order_data.data.orders.each {|order| orders << order} if order_data.data.orders.any?
 
         break if order_data.data.total < limit || (!order_data.success && order_data.response.code != 429)
       end

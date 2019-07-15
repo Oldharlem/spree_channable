@@ -10,7 +10,7 @@ module SpreeChannable
   module VERSION
     MAJOR = 0
     MINOR = 0
-    TINY  = 2
+    TINY  = 4
     PRE   = 'alpha'.freeze
 
     STRING = [MAJOR, MINOR, TINY, PRE].compact.join('.')
