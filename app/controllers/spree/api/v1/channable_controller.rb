@@ -15,7 +15,7 @@ class Spree::Api::V1::ChannableController < Spree::Api::BaseController
   private
 
   def get_products
-    @products = Spree::Product.active.includes([:option_types, :taxons, product_properties: :property, variants: [{option_values: :option_type}, :default_price, :images], master: [{option_values: :option_type}, :default_price, :images]])
+    @products = Spree::Product.active.includes([:option_types, :taxons, product_properties: :property, variants: [{option_values: :option_type}, :default_price, :images], master: [{option_values: :option_type}, :default_price, :images]]).first(20)
   end
 
 end

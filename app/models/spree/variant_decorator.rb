@@ -13,7 +13,7 @@ module Spree
           xml.product {
             xml.id id
             xml.product_id product.id
-            xml.title "#{product.name} #{options_text}"
+            xml.title "#{product.name}"
             xml.description ActionController::Base.helpers.strip_tags(product.normalized_description)
             xml.link URI.join(::SpreeChannable.configuration.host, "/#{::SpreeChannable.configuration.url_prefix}/" + product.slug).to_s
             (xml.image_link URI.join(::SpreeChannable.configuration.image_host, get_images.first.attachment.url(:large)).to_s) unless get_images.empty?
@@ -51,8 +51,6 @@ module Spree
           }
         end.to_xml
       end
-
-      private
 
       def get_images
         images = []
