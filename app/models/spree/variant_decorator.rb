@@ -15,9 +15,9 @@ module Spree
             xml.product_id product.id
             xml.title "#{product.name} #{options_text}"
             xml.description ActionController::Base.helpers.strip_tags(product.normalized_description)
-            xml.link URI.join(SpreeChannable.configuration.host, "/#{SpreeChannable.configuration.url_prefix}/" + product.slug).to_s
-            (xml.image_link URI.join(SpreeChannable.configuration.imahe_host, get_images.first.attachment.url(:large)).to_s) unless get_images.empty?
-            xml.condition product.property('product_condition') || SpreeChannable.configuration.product_condition
+            xml.link URI.join(::SpreeChannable.configuration.host, "/#{::SpreeChannable.configuration.url_prefix}/" + product.slug).to_s
+            (xml.image_link URI.join(::SpreeChannable.configuration.image_host, get_images.first.attachment.url(:large)).to_s) unless get_images.empty?
+            xml.condition product.property('product_condition') || ::SpreeChannable.configuration.product_condition
 
             xml.availability can_supply?
             xml.stock total_on_hand
@@ -28,7 +28,7 @@ module Spree
             xml.mpn sku
             xml.sku sku
 
-            xml.brand product.property('brand') || SpreeChannable.configuration.brand
+            xml.brand product.property('brand') || ::SpreeChannable.configuration.brand
 
             xml.categories do
               product.taxons.each do |taxon|
@@ -46,7 +46,7 @@ module Spree
             # Property fields
 
             xml.gender product.property('gender') || 'Not set'
-            xml.delivery_period product.property('delivery_period') || SpreeChannable.configuration.delivery_period
+            xml.delivery_period product.property('delivery_period') || ::SpreeChannable.configuration.delivery_period
             xml.material product.property('material') || 'Not set'
           }
         end.to_xml
@@ -56,7 +56,7 @@ module Spree
 
       def get_images
         images = []
-        if SpreeChannable.configuration.use_variant_images
+        if ::SpreeChannable.configuration.use_variant_images
           if self.class.respond_to?(:same_product_colors)
             images = self.class.same_product_colors(self).flat_map(&:images)
           else

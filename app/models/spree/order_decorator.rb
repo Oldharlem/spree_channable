@@ -144,18 +144,12 @@ module Spree
 # }
       def self.prepended(base)
 
-        base.validates :channable_order_id, uniqueness: true
-
         base.state_machine.after_transition to: :cancelled, do: :cancel_channable_order
 
         class << base
 
           def channable_to_order_params(channable_order)
             order_params = {}
-
-            channable_order.data.products.each do |channable_product|
-              channable_product.ean = Spree::Variant.active.sample.sku
-            end
 
             order_params[:channable_order_id] = channable_order.id
             order_params[:channable_channel_order_id] = channable_order.channel_id
