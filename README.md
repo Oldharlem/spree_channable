@@ -1,12 +1,13 @@
 # SpreeChannable
 
-Introduction goes here.
+Channable offers many ways to transform a product feed to many marketplace formats. On top channable offers an order connection to accept incoming orders from connected marketplaces. This gem connects your spree store to the channable platform. The feeds are configurable and can be directly loaded into channable. 
+The order connection can be enabled by channable on request and can be easily configured through the spree admin panel. 
 
 ## Installation
 
 1. Add this extension to your Gemfile with this line:
   ```ruby
-  gem 'spree_channable', github: '[your-github-handle]/spree_channable'
+  gem 'spree_channable', github: 'Oldharlem/spree_channable'
   ```
 
 2. Install the gem using Bundler:
@@ -21,8 +22,7 @@ Introduction goes here.
 
 4. Schedule order imports
 
-Schedule the `SpreeChannable::OrderImportJob.perform_later` to run every `SpreeChannable.configuration.polling_interval` minutes.
-By default whenever is included, the script will attempt to execute the whenever cronjob builder after the polling interval is updated.   
+Schedule the `SpreeChannable::OrderImportJob.perform_later` to run every `SpreeChannable.configuration.polling_interval` minutes. This script will pull all orders placed `SpreeChannable.configuration.polling_interval` minutes ago. Please configure the integration through the channable settings under spree configurations before running the script. 
 
 5. Restart your server
 
