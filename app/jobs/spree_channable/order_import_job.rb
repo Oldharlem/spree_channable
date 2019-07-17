@@ -5,8 +5,7 @@ module SpreeChannable
     def perform(*args)
       @client = ::Channable::Client.new
       channable_orders = get_orders
-      orders_attributes = channable_orders.map {|channable_order| parse_order(channable_order)}
-      orders_attributes.each &method(:persist_order)
+      channable_orders.each &method(:persist_order)
     end
 
     def get_orders
@@ -21,23 +20,15 @@ module SpreeChannable
       orders
     end
 
-    def parse_order(channable_order)
-      Spree::Order.channable_to_order_params(channable_order)
-    end
-
-    def persist_order(order_attributes)
-      return if Spree::Order.exists?(channable_order_id: order_attributes[:channable_order_id])
+    def persist_order(channable_order)
+      return if Spree::Order.exists?(channable_order_id: channable_order.id)
       begin
-        order = SpreeChannable::OrderImporter.import(nil, order_attributes)
+        order_attributes = Spree::Order.channable_to_order_params(channable_order)
+        SpreeChannable::OrderImporter.import(nil, order_attributes)
       rescue StandardError => e
-        Rails.logger.warn "[CHANNABLE] Failed to import order #{order_attributes[:channable_order_id]}. #{e}"
-        @client.cancellation_update(order_attributes[:channable_order_id])
+        Rails.logger.warn "[CHANNABLE] Failed to import order #{channable_order.id}. #{e}"
+        @client.cancellation_update(channable_order.id)
       end
-      order
-    end
-
-    def cancel_order(order_id)
-      @client.cancellation_update(order_id)
     end
 
   end

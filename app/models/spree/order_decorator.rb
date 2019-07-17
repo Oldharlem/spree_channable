@@ -209,13 +209,14 @@ module Spree
                     tracking: nil,
                     stock_location: ::SpreeChannable.configuration.stock_location,
                     shipping_method: channable_order.channel_name,
-                    inventory_units: channable_order.data.products.map do |item|
+                    inventory_units: channable_order.data.products.flat_map do |item|
+                      variant = Spree::Variant.active.find_by_sku(item.ean)
                       item.quantity.times.map do
                         {
-                            sku: item.ean
+                            variant_id: variant.id
                         }
                       end
-                    end.flatten
+                    end
                 }
             ]
           end
@@ -260,7 +261,6 @@ module Spree
           def build_line_items_attributes(channable_order)
             channable_order.data.products.map do |item|
               variant = Spree::Variant.active.find_by_sku(item.ean)
-              next if variant.blank?
               {
                   variant_id: variant.id,
                   quantity: item.quantity,
