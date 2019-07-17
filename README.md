@@ -7,7 +7,7 @@ The order connection can be enabled by channable on request and can be easily co
 
 1. Add this extension to your Gemfile with this line:
   ```ruby
-  gem 'spree_channable', github: '[your-github-handle]/spree_channable'
+  gem 'spree_channable', github: 'Oldharlem/spree_channable'
   ```
 
 2. Install the gem using Bundler:
@@ -22,8 +22,7 @@ The order connection can be enabled by channable on request and can be easily co
 
 4. Schedule order imports
 
-Schedule the `SpreeChannable::OrderImportJob.perform_later` to run every `SpreeChannable.configuration.polling_interval` minutes.
-By default whenever is included, the script will attempt to execute the whenever cronjob builder after the polling interval is updated.   
+Schedule the `SpreeChannable::OrderImportJob.perform_later` to run every `SpreeChannable.configuration.polling_interval` minutes. This script will pull all orders placed `SpreeChannable.configuration.polling_interval` minutes ago. Please configure the integration through the channable settings under spree configurations before running the script. 
 
 5. Restart your server
 
