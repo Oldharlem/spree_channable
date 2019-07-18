@@ -3,6 +3,8 @@ module SpreeChannable
     queue_as :default
 
     def perform(*args)
+      return unless ::SpreeChannable.configuration.active?
+
       @client = ::Channable::Client.new
       channable_orders = get_orders
       channable_orders.each &method(:persist_order)
