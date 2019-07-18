@@ -18,7 +18,7 @@ module SpreeChannable
   end
 
   class Configuration
-    ATTR_LIST = [:host, :url_prefix, :image_host, :product_condition, :brand, :delivery_period, :use_variant_images, :channable_api_key, :company_id, :project_id, :stock_location, :payment_method, :polling_interval, :active]
+    ATTR_LIST = [:host, :url_prefix, :image_host, :product_condition, :brand, :delivery_period, :use_variant_images, :channable_api_key, :company_id, :project_id, :stock_location, :payment_method, :polling_interval, :active?]
 
     ATTR_LIST.each do |a|
       define_method a do
