@@ -10,7 +10,7 @@ The order connection can be enabled by channable on request and can be easily co
 
 1. Add this extension to your Gemfile with this line:
   ```ruby
-  gem 'spree_channable', github: 'Oldharlem/spree_channable'
+  gem 'spree_channable'
   ```
 
 2. Install the gem using Bundler:
