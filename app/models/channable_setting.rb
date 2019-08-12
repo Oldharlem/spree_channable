@@ -5,4 +5,6 @@ class ChannableSetting < ActiveRecord::Base
 
   PRODUCT_CONDITIONS = ['New', 'Used']
 
+  validates_inclusion_of :product_condition, in: PRODUCT_CONDITIONS
+
 end

@@ -4,12 +4,12 @@ class Spree::Api::V1::ChannableController < Spree::Api::BaseController
 
   def variant_feed
     headers["Content-Type"] = 'application/atom+xml; charset=utf-8'
-    render plain: Spree::Product.collection_to_channable_variant_xml(@products)
+    render plain: Spree::Product.to_channable_variant_xml(@products)
   end
 
   def product_feed
     headers["Content-Type"] = 'application/atom+xml; charset=utf-8'
-    render plain: Spree::Product.collection_to_channable_product_xml(@products)
+    render plain: Spree::Product.to_channable_product_xml(@products)
   end
 
   private

@@ -6,7 +6,7 @@ module Spree
       end
 
       def reimburse_channable_order
-        return unless is_channable_order?
+        return unless order.is_channable_order?
 
         client = ::Channable::Client.new
         client.return_update(customer_return.channable_return_id, channable_return)

@@ -6,7 +6,7 @@ module Spree
       def self.prepended(base)
         class << base
 
-          def collection_to_channable_variant_xml(products)
+          def to_channable_variant_xml(products)
             builder = Nokogiri::XML::Builder.new do |xml|
               xml.feed(xmlns: 'http://www.w3.org/2005/Atom') do
                 xml.title 'Channable variant feed'
@@ -25,7 +25,7 @@ module Spree
             builder.to_xml
           end
 
-          def collection_to_channable_product_xml(products)
+          def to_channable_product_xml(products)
             builder = Nokogiri::XML::Builder.new do |xml|
               xml.feed(xmlns: 'http://www.w3.org/2005/Atom') do
                 xml.title 'Channable product feed'

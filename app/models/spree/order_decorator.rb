@@ -2,6 +2,10 @@ module Spree
   module SpreeChannable
     module OrderDecorator
 
+      def channable_client
+        @channable_client ||= ::Channable::Client.new
+      end
+
       def deliver_order_confirmation_email
         unless is_channable_order?
           super
@@ -21,8 +25,7 @@ module Spree
       def cancel_channable_order
         return unless is_channable_order?
 
-        client = ::Channable::Client.new
-        client.cancellation_update(channable_order_id)
+        channable_client.cancellation_update(channable_order_id)
       end
 
       def self.prepended(base)
@@ -31,24 +34,22 @@ module Spree
         class << base
 
           def channable_to_order_params(channable_order)
-            order_params = {}
+              order_params = {}
 
-            order_params[:channable_order_id] = channable_order.id
-            order_params[:channable_channel_order_id] = channable_order.channel_id
-            order_params[:channable_channel_name] = channable_order.channel_name
-            order_params[:completed_at] = DateTime.parse(channable_order.created)
-            order_params[:email] = channable_order.data.shipping.email
+              order_params[:channable_order_id] = channable_order.id
+              order_params[:channable_channel_order_id] = channable_order.channel_id
+              order_params[:channable_channel_name] = channable_order.channel_name
+              order_params[:completed_at] = DateTime.parse(channable_order.created)
+              order_params[:email] = channable_order.data.shipping.email
 
-            order_params[:bill_address_attributes] = build_address(channable_order.data.billing)
-            order_params[:ship_address_attributes] = build_address(channable_order.data.shipping)
+              order_params[:bill_address_attributes] = build_address(channable_order.data.billing)
+              order_params[:ship_address_attributes] = build_address(channable_order.data.shipping)
 
-            order_params[:shipments_attributes] = build_shipments_attributes(channable_order)
-            order_params[:payments_attributes] = build_payments_attributes(channable_order)
-            order_params[:line_items_attributes] = build_line_items_attributes(channable_order)
+              order_params[:shipments_attributes] = build_shipments_attributes(channable_order)
+              order_params[:payments_attributes] = build_payments_attributes(channable_order)
+              order_params[:line_items_attributes] = build_line_items_attributes(channable_order)
 
-            # order_params[:adjustments_attributes] = build_adjustments_attributes(channable_order)
-
-            order_params
+              order_params
           end
 
           def build_address(address_params)
@@ -73,7 +74,7 @@ module Spree
                     stock_location: ::SpreeChannable.configuration.stock_location,
                     shipping_method: channable_order.channel_name,
                     inventory_units: channable_order.data.products.flat_map do |item|
-                      variant = Spree::Variant.active.find_by_sku(item.ean)
+                      variant = Spree::Variant.active.find_by_sku!(item.ean)
                       item.quantity.times.map do
                         {
                             variant_id: variant.id
@@ -96,7 +97,7 @@ module Spree
 
           def build_line_items_attributes(channable_order)
             channable_order.data.products.map do |item|
-              variant = Spree::Variant.active.find_by_sku(item.ean)
+              variant = Spree::Variant.active.find_by_sku!(item.ean)
               {
                   variant_id: variant.id,
                   quantity: item.quantity,
@@ -105,7 +106,7 @@ module Spree
             end.compact
           end
 
-          
+
           def build_adjustments_attributes(channable_order)
             raise 'Not implemented'
             [
