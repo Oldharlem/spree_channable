@@ -54,7 +54,7 @@ RSpec.describe Spree::Order, type: :model do
     end
 
     it 'does cancel a channable order' do
-      Channable::Client.any_instance.stub(:cancellation_update).and_return('cancellation update ok')
+      allow_any_instance_of(Channable::Client).to receive(:cancellation_update).and_return('cancellation update ok')
       expect(@order.cancel_channable_order).to eq('cancellation update ok')
     end
   end
