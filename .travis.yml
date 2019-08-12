@@ -2,10 +2,6 @@ sudo: required
 dist: trusty
 
 language: ruby
-cache:
-  bundler: true
-  directories:
-    - /home/travis/.rvm/
 
 env:
   - DB=postgres
