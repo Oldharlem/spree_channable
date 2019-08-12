@@ -1,4 +1,6 @@
-# SpreeChannable
+<h1 align="center">Channable integration for Spree Commerce</h1>
+
+[![Build Status](https://travis-ci.com/Oldharlem/spree_channable.svg?branch=master)](https://travis-ci.com/Oldharlem/spree_channable)
 
 Channable offers many ways to transform a product feed to many marketplace formats. On top channable offers an order connection to accept incoming orders from connected marketplaces. This gem connects your spree store to the channable platform. The feeds are configurable and can be directly loaded into channable. 
 The order connection can be enabled by channable on request and can be easily configured through the spree admin panel. 
