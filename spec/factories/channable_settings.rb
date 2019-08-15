@@ -7,11 +7,11 @@ FactoryBot.define do
     brand "My Brand"
     delivery_period "1 Day"
     use_variant_images false
-    channable_api_key "MyString"
-    company_id "MyString"
-    project_id "MyString"
+    channable_api_key "jhg45jhk3g5j34khg5j-dsf78sdf"
+    company_id "company_123"
+    project_id "project_456"
     association :payment_method, factory: :check_payment_method
-    polling_interval 1
+    polling_interval 20
     association :stock_location, factory: :stock_location
     active false
 
