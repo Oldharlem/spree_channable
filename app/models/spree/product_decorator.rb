@@ -63,6 +63,12 @@ module Spree
             (xml.image_link URI.join(::SpreeChannable.configuration.image_host, images.first.attachment.url(:large)).to_s) if images.any?
             xml.condition property('product_condition') || ::SpreeChannable.configuration.product_condition
 
+            xml.images do
+              images.each do |image|
+                xml.image URI.join(::SpreeChannable.configuration.image_host, image.attachment.url(:large)).to_s
+              end
+            end
+
             xml.price price
 
             xml.brand property('brand') || ::SpreeChannable.configuration.brand

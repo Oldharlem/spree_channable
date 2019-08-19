@@ -19,6 +19,12 @@ module Spree
             (xml.image_link URI.join(::SpreeChannable.configuration.image_host, get_images.first.attachment.url(:large)).to_s) unless get_images.empty?
             xml.condition product.property('product_condition') || ::SpreeChannable.configuration.product_condition
 
+            xml.images do
+              get_images.each do |image|
+                xml.image URI.join(::SpreeChannable.configuration.image_host, image.attachment.url(:large)).to_s
+              end
+            end
+
             xml.availability can_supply?
             xml.stock total_on_hand
             xml.price price
