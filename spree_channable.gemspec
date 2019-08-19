@@ -30,6 +30,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'httparty'
   s.add_dependency 'whenever'
 
+
   s.add_development_dependency 'appraisal'
   s.add_development_dependency 'awesome_print'
   s.add_development_dependency 'capybara'
@@ -47,4 +48,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'simplecov'
   s.add_development_dependency 'sqlite3', '~> 1.3.6'
   s.add_development_dependency 'webdrivers', '~> 3.8.0'
+  s.add_development_dependency 'byebug'
 end
