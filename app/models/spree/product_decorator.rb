@@ -13,9 +13,11 @@ module Spree
                 xml.link(rel: 'self', href: ::SpreeChannable.configuration.host)
                 xml.updated DateTime.now.strftime('%Y-%m-%dT%H:%M:%S%z')
 
-                Parallel.map(products) {|product| product.to_channable_variant_xml}.each do |products_xml|
-                  products_xml.each do |variant_xml|
-                    xml.parent << Nokogiri::XML(variant_xml).at('product')
+                xml.variants do
+                  Parallel.map(products) {|product| product.to_channable_variant_xml}.each do |variants_xml|
+                    variants_xml.each do |variant_xml|
+                      xml.parent << Nokogiri::XML(variant_xml).at('variant')
+                    end
                   end
                 end
 

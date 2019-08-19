@@ -10,7 +10,7 @@ module Spree
         return nil if price.blank?
 
         Nokogiri::XML::Builder.new do |xml|
-          xml.product {
+          xml.variant {
             xml.id id
             xml.product_id product.id
             xml.title "#{product.name}"
