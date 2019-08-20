@@ -1,43 +1,36 @@
 sudo: required
 dist: trusty
-
 language: ruby
-
 env:
-  - DB=postgres
-  - DB=mysql
-
+- DB=postgres
+- DB=mysql
 gemfile:
-  - gemfiles/spree_3_2.gemfile
-  - gemfiles/spree_3_5.gemfile
-  - gemfiles/spree_3_7.gemfile
-  - gemfiles/spree_master.gemfile
-
+- gemfiles/spree_3_2.gemfile
+- gemfiles/spree_3_5.gemfile
+- gemfiles/spree_3_7.gemfile
+- gemfiles/spree_master.gemfile
 script:
-  - bundle exec rake test_app
-  - bundle exec rake spec
-
+- bundle exec rake test_app
+- bundle exec rake spec
 rvm:
-  - 2.5.1
-  - 2.4.2
-
+- 2.5.1
+- 2.4.2
 matrix:
   allow_failures:
-    - gemfile: gemfiles/spree_master.gemfile
-
+  - gemfile: gemfiles/spree_master.gemfile
 before_install:
-  - mysql -u root -e "GRANT ALL ON *.* TO 'travis'@'%';"
-  - wget -N https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip -P ~/
-  - unzip ~/chromedriver_linux64.zip -d ~/
-  - rm ~/chromedriver_linux64.zip
-  - sudo mv -f ~/chromedriver /usr/local/share/
-  - sudo chmod +x /usr/local/share/chromedriver
-  - sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
-
+- mysql -u root -e "GRANT ALL ON *.* TO 'travis'@'%';"
+- wget -N https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip
+  -P ~/
+- unzip ~/chromedriver_linux64.zip -d ~/
+- rm ~/chromedriver_linux64.zip
+- sudo mv -f ~/chromedriver /usr/local/share/
+- sudo chmod +x /usr/local/share/chromedriver
+- sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
 deploy:
   provider: rubygems
   api_key:
-    secure: erVFW3807Q70scmMOaBcBBIUiwXEbqOKp9qs6e0PEgW3V2eIS2Vm5xPKgkOzV5HDZPFH5RG1kbaIqiHy/mrjw8MXtpqvDM/4iiGVIbBb9ugC3rPFV8RLDc2UvZCOV8sSRyGmmBFZoV+4i6yN28DJoSype7nYKyXb90XVIRNqhFy+v6PQH3zwwS8TG7/AuhEos7Ffkov9cruDWB5NMheVyT1SuUdGo/Cjy6Csbc/RcbaJBZa4fKwRRSL6WRyiXl6UQbjppE2S0B46ozEPI2nBDzuPZ/Wy/wCPYjCNutwJPbflHvsCU0kdSGRXWK69pcN4Dr5lzI3ADUSMnOTOjtgbGXyOI1lgagSoa6o+nLs478OpnamO0cB3/0o4GauQP92jgGupvr/5SNbxzrS80QP30vywlf6JQ6IATaAb8KVn3zV+YhdaL95PXlgnWe4yU5AUMsrS8HXiHWQl+K7iWrt2dH7ljwWaFvlNgunVxTtPsrAySpFCEXxiUmVlvtOuN1NPzys0PweF4zQMV5aW3d/xRxflBI5yBmme0L3qiNOCia384Cq9gHfIauJegBP5cIhyhgoNHxKgKDVBcEAdoUYuAn39YtfmgjImNH3ZhFoijjU9fX7mL9YS6pwAk/Od9oG4AKKGtea8S8nKensQPHo+0HWfU0jxqWpP3KmvRbhYbsM=
+    secure: XivMabJn2vInPRdylaE9IJEKtiICvLXTWiKpKbiVss4tNVRMKHpjNsrLSA5KtoCjsUtNmiEgu88FW974p90xBhc8BkB3wS0cQyIbghJQvB1BsRErz+aBnKbSK+S/7SkpWqWo+CfjJPsqxBHSuj4XaN0CU/29odMWIk3YLw0GeNH5L/+R0lzQK+PlKy3BcVWl9P+kWXgGR58Ok6GkZnnieKXZm8L5BOQTOgcbR75s2rkyu/cPT5WF/MDHKmHXSRpLPIdDfX05qRLTrZIjm60XFQ01wcNNnA2MqGJXrchZYjP62dsonHEfEtoBO/e7s0cUdh+xQ59CQmw94+baC/VeqMgKf33l6QXcMrDuPOybeThLZ08JVlmP5xXxtjJqdWmT+gpfQFEsHi+fRVcXvEE7cnoGfro5iQJ+wzS2BJXduRte0tbqVHoeQa4FafB0KYaUP52xdIr/8TSuS6WD0FoV/SwiPXVfLNHtTO17vcJsL3xr2+s7Ux3MfN8PKuqFSupCJX2sGRAkiBMIox1yPXLGfS26nmi+cDPLsEtazvS90hGo1jLd4i4lEI32bW0cJPe2RRg2nUnTWnZNu/BBDqEGUpMEjjCr6hKzwMG7ZRW87xo9cdjlphZyeynuptpjvbWPeSvkCG5JpXsoQsCyZTkF7rnGNeZe6WSvmpyKHu+GWVk=
   gem: spree_channable
   on:
     tags: true
