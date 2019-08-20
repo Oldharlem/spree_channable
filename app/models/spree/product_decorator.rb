@@ -14,12 +14,13 @@ module Spree
                 xml.updated DateTime.now.strftime('%Y-%m-%dT%H:%M:%S%z')
 
                 xml.variants do
-                  Parallel.map(products) {|product| product.to_channable_variant_xml}.each do |variants_xml|
+                  products.map {|product| product.to_channable_variant_xml}.each do |variants_xml|
                     variants_xml.each do |variant_xml|
                       xml.parent << Nokogiri::XML(variant_xml).at('variant')
                     end
                   end
                 end
+
 
               end
             end
@@ -35,7 +36,7 @@ module Spree
                 xml.updated DateTime.now.strftime('%Y-%m-%dT%H:%M:%S%z')
 
                 xml.products do
-                  Parallel.map(products) {|product| product.to_channable_product_xml}.each do |product_xml|
+                  products.map {|product| product.to_channable_product_xml}.each do |product_xml|
                     xml.parent << Nokogiri::XML(product_xml).at('product')
                   end
                 end
@@ -61,7 +62,7 @@ module Spree
             xml.id id
             xml.title "#{name}"
             xml.description ActionController::Base.helpers.strip_tags(normalized_description)
-            xml.link URI.join(::SpreeChannable.configuration.host, "/#{::SpreeChannable.configuration.url_prefix}/" + slug).to_s
+            xml.link URI.join(::SpreeChannable.configuration.host, "/#{::SpreeChannable.configuration.url_prefix}/" + "#{slug}").to_s
             (xml.image_link URI.join(::SpreeChannable.configuration.image_host, images.first.attachment.url(:large)).to_s) if images.any?
             xml.condition property('product_condition') || ::SpreeChannable.configuration.product_condition
 
@@ -117,6 +118,14 @@ module Spree
 
           end
         end.to_xml
+      end
+
+      def normalized_description
+        if description.blank? || description.length < 3
+          name
+        else
+          description
+        end
       end
 
     end
