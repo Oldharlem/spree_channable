@@ -3,6 +3,7 @@ dist: trusty
 language: ruby
 env:
 - DB=mysql
+- DB=postgres
 gemfile:
 - gemfiles/spree_3_2.gemfile
 - gemfiles/spree_3_5.gemfile
