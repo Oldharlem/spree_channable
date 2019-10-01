@@ -92,7 +92,7 @@ module Spree
             xml.material property('material') || 'Not set'
 
             xml.variants do
-              variants.each do |variant|
+              (variants.any? ? variants : variants_including_master).each do |variant|
                 xml.variant do
                   xml.id variant.id
                   xml.product_id id
