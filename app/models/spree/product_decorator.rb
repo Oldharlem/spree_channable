@@ -51,7 +51,7 @@ module Spree
 
 
       def to_channable_variant_xml
-        variants.active.map do |variant|
+        (variants.any? ? variants : variants_including_master).active.map do |variant|
           variant.to_channable_feed_entry
         end
       end
