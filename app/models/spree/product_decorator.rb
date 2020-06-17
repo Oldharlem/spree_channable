@@ -98,6 +98,11 @@ module Spree
                   xml.product_id id
                   xml.options_text variant.options_text
                   (xml.image_link URI.join(::SpreeChannable.configuration.image_host, variant.get_images.first.attachment.url(:large)).to_s) unless variant.get_images.empty?
+                  xml.images do
+                    get_images.each do |image|
+                      xml.image URI.join(::SpreeChannable.configuration.image_host, image.attachment.url(:large)).to_s
+                    end
+                  end
 
                   xml.availability variant.can_supply?
                   xml.stock variant.total_on_hand
