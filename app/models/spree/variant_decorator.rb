@@ -9,53 +9,55 @@ module Spree
       def to_channable_feed_entry
         return nil if price.blank?
 
-        Nokogiri::XML::Builder.new do |xml|
-          xml.variant {
-            xml.id id
-            xml.product_id product.id
-            xml.title "#{product.name}"
-            xml.description ActionController::Base.helpers.strip_tags(product.normalized_description)
-            xml.link URI.join(::SpreeChannable.configuration.host, "/#{::SpreeChannable.configuration.url_prefix}/" + product.slug).to_s
-            (xml.image_link URI.join(::SpreeChannable.configuration.image_host, get_images.first.attachment.url(:large)).to_s) unless get_images.empty?
-            xml.condition product.property('product_condition') || ::SpreeChannable.configuration.product_condition
+        Rails.cache.fetch(['variant-channable-feed-entry', self]) do
+          Nokogiri::XML::Builder.new do |xml|
+            xml.variant {
+              xml.id id
+              xml.product_id product.id
+              xml.title "#{product.name}"
+              xml.description ActionController::Base.helpers.strip_tags(product.normalized_description)
+              xml.link URI.join(::SpreeChannable.configuration.host, "/#{::SpreeChannable.configuration.url_prefix}/" + product.slug).to_s
+              (xml.image_link URI.join(::SpreeChannable.configuration.image_host, get_images.first.attachment.url(:large)).to_s) unless get_images.empty?
+              xml.condition product.property('product_condition') || ::SpreeChannable.configuration.product_condition
 
-            xml.images do
-              get_images.each do |image|
-                xml.image URI.join(::SpreeChannable.configuration.image_host, image.attachment.url(:large)).to_s
+              xml.images do
+                get_images.each do |image|
+                  xml.image URI.join(::SpreeChannable.configuration.image_host, image.attachment.url(:large)).to_s
+                end
               end
-            end
 
-            xml.availability can_supply?
-            xml.stock total_on_hand
-            xml.price price
-            xml.sale_price respond_to?(:sale_price) ? (sale_price || price) : price
+              xml.availability can_supply?
+              xml.stock total_on_hand
+              xml.price price
+              xml.sale_price respond_to?(:sale_price) ? (sale_price || price) : price
 
-            xml.gtin sku
-            xml.mpn sku
-            xml.sku sku
+              xml.gtin sku
+              xml.mpn sku
+              xml.sku sku
 
-            xml.brand product.property('brand') || ::SpreeChannable.configuration.brand
+              xml.brand product.property('brand') || ::SpreeChannable.configuration.brand
 
-            xml.categories do
-              product.taxons.each do |taxon|
-                xml.category taxon.self_and_ancestors.collect(&:name).join('|')
+              xml.categories do
+                product.taxons.each do |taxon|
+                  xml.category taxon.self_and_ancestors.collect(&:name).join('|')
+                end
               end
-            end
 
-            xml.currency Spree::Config.currency
-            xml.locale I18n.default_locale
+              xml.currency Spree::Config.currency
+              xml.locale I18n.default_locale
 
-            option_values.each do |option_value|
-              xml.send(option_value.option_type.name, option_value.presentation)
-            end
+              option_values.each do |option_value|
+                xml.send(option_value.option_type.name, option_value.presentation)
+              end
 
-            # Property fields
+              # Property fields
 
-            xml.gender product.property('gender') || 'Not set'
-            xml.delivery_period product.property('delivery_period') || ::SpreeChannable.configuration.delivery_period
-            xml.material product.property('material') || 'Not set'
-          }
-        end.to_xml
+              xml.gender product.property('gender') || 'Not set'
+              xml.delivery_period product.property('delivery_period') || ::SpreeChannable.configuration.delivery_period
+              xml.material product.property('material') || 'Not set'
+            }
+          end.to_xml
+        end
       end
 
       def get_images
