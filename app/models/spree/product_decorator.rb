@@ -43,7 +43,6 @@ module Spree
 
               end
             end
-
             builder.to_xml
           end
         end
@@ -51,7 +50,7 @@ module Spree
 
 
       def to_channable_variant_xml
-        (variants.any? ? variants : variants_including_master).active.map do |variant|
+        (variants.any? ? variants : variants_including_master).active.uniq.map do |variant|
           variant.to_channable_feed_entry
         end
       end
@@ -99,7 +98,7 @@ module Spree
                   xml.options_text variant.options_text
                   (xml.image_link URI.join(::SpreeChannable.configuration.image_host, variant.get_images.first.attachment.url(:large)).to_s) unless variant.get_images.empty?
                   xml.images do
-                    get_images.each do |image|
+                    variant.get_images.each do |image|
                       xml.image URI.join(::SpreeChannable.configuration.image_host, image.attachment.url(:large)).to_s
                     end
                   end

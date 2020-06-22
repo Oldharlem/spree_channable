@@ -10,7 +10,7 @@ module SpreeChannable
   module VERSION
     MAJOR = 0
     MINOR = 0
-    TINY  = 23
+    TINY  = 24
 
     STRING = [MAJOR, MINOR, TINY].compact.join('.')
   end
