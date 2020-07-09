@@ -13,7 +13,7 @@ module Spree
           Nokogiri::XML::Builder.new do |xml|
             xml.variant {
               xml.id id
-              xml.master_id product.master_id
+              xml.master_id product.master.id
               xml.product_id product.id
               xml.title "#{product.name}"
               xml.description ActionController::Base.helpers.strip_tags(product.normalized_description)
