@@ -60,6 +60,7 @@ module Spree
           Nokogiri::XML::Builder.new do |xml|
             xml.product do
               xml.id id
+              xml.master_id master_id
               xml.title "#{name}"
               xml.description ActionController::Base.helpers.strip_tags(normalized_description)
               xml.link URI.join(::SpreeChannable.configuration.host, "/#{::SpreeChannable.configuration.url_prefix}/" + "#{slug}").to_s
